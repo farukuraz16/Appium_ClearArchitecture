@@ -2,6 +2,9 @@ package utils;
 
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
@@ -10,6 +13,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.List;
 
@@ -42,10 +47,26 @@ public class ElementHelper {
         findElement(locator);
     }
 
+
     public void pressEnter() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("mobile:performEditorAction", ImmutableMap.of("action", "done"));
     }
+
+    public void pressSearch() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("mobile:performEditorAction", ImmutableMap.of("action", "search"));
+    }
+
+    public void pressEnter2() {
+        AndroidDriver driver1 = (AndroidDriver) driver;
+        driver1.pressKey(new KeyEvent(AndroidKey.ENTER));
+    }
+
+    public void pressEnter3(String text) {
+        driver.findElement(By.xpath("")).sendKeys("tshirt" + "\n");
+    }
+
 
     public void click(By locator) {
         findElement(locator).click();
@@ -56,7 +77,7 @@ public class ElementHelper {
     }
 
     public void sendKeys(By locator, String text) {
-        findElement(locator).sendKeys(text);
+        findElement(locator).sendKeys(text + "\n");
     }
 
     public void clickElementWithText(By locator, String text) {
@@ -81,6 +102,33 @@ public class ElementHelper {
         }
         Assert.assertTrue(check, "Listede istediğin textteki elamanı bulamadım!!!");
     }
+
+
+    public void clickNearElementWithText(By locator, String text) {
+        int i = 0;
+        boolean check = false;
+        findElement(locator);
+        while (i < 4) {
+            List<WebElement> elementList = findElements(locator);
+            for (WebElement elem : elementList) {
+                if (elem.getText().equals(text)) {
+                    check = true;
+                    System.out.println("girdi");
+                    System.out.println(elem.findElement(By.xpath("..")).getTagName());
+                    elem.findElement(By.xpath("../android.widget.CheckBox")).click();
+                    break;
+                }
+            }
+            if (check) {
+                break;
+            } else {
+                scrollDown();
+                i++;
+            }
+        }
+        Assert.assertTrue(check, "Listede istediğin textteki elamanı bulamadım!!!");
+    }
+
 
     public void checkElementWithText(By locator, String text) {
         int i = 0;
@@ -139,5 +187,18 @@ public class ElementHelper {
         ((RemoteWebDriver) driver).perform(List.of(scroll));
     }
 
+    public void scrollDownWithElement(By locator) {
+        int startX = driver.findElement(locator).getSize().getWidth() / 2;
+        int startY = driver.findElement(locator).getSize().getHeight() / 2;
+        int endx = driver.findElement(locator).getSize().getWidth() / 2;
+        int endY = (int) (driver.findElement(locator).getSize().getHeight() * 0.2);
 
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+        Sequence scroll = new Sequence(finger, 0);
+        scroll.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY));
+        scroll.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        scroll.addAction(finger.createPointerMove(Duration.ofMillis(500), PointerInput.Origin.viewport(), endx, endY));
+        scroll.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        ((RemoteWebDriver) driver).perform(List.of(scroll));
+    }
 }

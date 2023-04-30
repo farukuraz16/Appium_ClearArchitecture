@@ -1,18 +1,35 @@
-@ApiDemos
-Feature: Api Demos
+@Trendyol
+Feature: Trendyol
 
-  @ButtonsPage
-  Scenario: Check Buttons Page
-    Given user should see the Categories Page
-    When taps "Views" on Categories Page
-    When taps "Buttons" on Categories Page
-    Then should see Title "Views/Buttons" on Buttons Page
+  @Mülakat
+  Scenario: Enes
+    Given user should see the Gender Page
+    When taps Gender "ERKEK" on Gender Page
+    When taps Popup Close Button on Home Page
+    Then should see the Home Page
+    When taps Search Area on Home Page
+    Then should see the Search Page
+    When sendkeys Search Area "tshirt" on Search Page
+    Then should see the Result Page
+    When taps Filter on Result Page
+    Then should see the Filter Page
+    When taps Filter "Kargo Bedava" on Filter Page
+    When taps List Products "ÜRÜNLERİ LİSTELE" on Filter Page
+    Then should see the Result Page
+    When taps Order on Result Page
+    Then should see the Order Page
+    When taps Option "En Çok Değerlendirilen" on Order Page
+    Then should see the Result Page
+    When taps second Product on Result Page
+    Then should see the Product Page
+    When save Product Name on Product Page
+    And taps Add To Basket "Sepete Ekle" on Product Page
+    And taps Size "M" on Product Page
+    And taps Size Add to Basket on Product Page
+    Then should see the Basket Page
+    And should see Same Product Name on Basket Page
+    When taps Delete Button on Basket Page
+    And taps Delete Popup on Basket Page
+    Then should see Empty Message "Sepetinizde ürün bulunmamaktadır" on Basket Page
 
-  @ButtonsPage @CheckActions
-  Scenario: Check Buttons Page Actions
-    Given user is on the Buttons Page
-    Then should Normal Button "NORMAL" on Buttons Page
-    Then should Small Button "SMALL" on Buttons Page
-    Then should Switch Button "KAPALI" on Buttons Page
-    When taps Switch Button on Buttons Page
-    Then should Switch Button "AÇIK" on Buttons Page
+
