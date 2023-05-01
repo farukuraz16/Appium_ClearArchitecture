@@ -7,14 +7,19 @@ import utils.ElementHelper;
 public class OrderPage {
     ElementHelper elementHelper;
 
-    By title = By.className("android.widget.TextView");
+    By popupCloseIcon = By.id("trendyol.com:id/imageViewClose");
+    By options = By.id("trendyol.com:id/radioButtonSortingTypeItem");
 
     public OrderPage(WebDriver driver) {
         this.elementHelper = new ElementHelper(driver);
     }
 
-    public String getTitle() {
-        return elementHelper.getText(title);
+    public void checkPopupClose() {
+        elementHelper.checkElement(popupCloseIcon);
+    }
+
+    public void clickOption(String option) {
+        elementHelper.clickElementWithText(options, option);
     }
 
 

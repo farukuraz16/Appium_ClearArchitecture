@@ -103,33 +103,6 @@ public class ElementHelper {
         Assert.assertTrue(check, "Listede istediğin textteki elamanı bulamadım!!!");
     }
 
-
-    public void clickNearElementWithText(By locator, String text) {
-        int i = 0;
-        boolean check = false;
-        findElement(locator);
-        while (i < 4) {
-            List<WebElement> elementList = findElements(locator);
-            for (WebElement elem : elementList) {
-                if (elem.getText().equals(text)) {
-                    check = true;
-                    System.out.println("girdi");
-                    System.out.println(elem.findElement(By.xpath("..")).getTagName());
-                    elem.findElement(By.xpath("../android.widget.CheckBox")).click();
-                    break;
-                }
-            }
-            if (check) {
-                break;
-            } else {
-                scrollDown();
-                i++;
-            }
-        }
-        Assert.assertTrue(check, "Listede istediğin textteki elamanı bulamadım!!!");
-    }
-
-
     public void checkElementWithText(By locator, String text) {
         int i = 0;
         boolean check = false;
@@ -182,16 +155,18 @@ public class ElementHelper {
         Sequence scroll = new Sequence(finger, 0);
         scroll.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY));
         scroll.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        scroll.addAction(finger.createPointerMove(Duration.ofMillis(500), PointerInput.Origin.viewport(), endx, endY));
+        scroll.addAction(finger.createPointerMove(Duration.ofMillis(300), PointerInput.Origin.viewport(), endx, endY));
         scroll.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         ((RemoteWebDriver) driver).perform(List.of(scroll));
     }
 
-    public void scrollDownWithElement(By locator) {
-        int startX = driver.findElement(locator).getSize().getWidth() / 2;
-        int startY = driver.findElement(locator).getSize().getHeight() / 2;
-        int endx = driver.findElement(locator).getSize().getWidth() / 2;
-        int endY = (int) (driver.findElement(locator).getSize().getHeight() * 0.2);
+
+    public void scrollDownWithElement(By filtreleme) {
+        int startX = driver.findElement(filtreleme).getSize().getWidth() / 2;
+        int startY = driver.findElement(filtreleme).getSize().getHeight() / 2;
+        int endx = driver.findElement(filtreleme).getSize().getWidth() / 2;
+        int endY = (int) (driver.findElement(filtreleme).getSize().getHeight() * 0.2);
+
 
         PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
         Sequence scroll = new Sequence(finger, 0);
@@ -201,4 +176,5 @@ public class ElementHelper {
         scroll.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         ((RemoteWebDriver) driver).perform(List.of(scroll));
     }
+
 }

@@ -9,7 +9,7 @@ public class FilterPage {
 
     By filterItem = By.id("trendyol.com:id/textViewFilterTitle");
     By listProductButton = By.id("trendyol.com:id/btnApplyFilter");
-    By checkBoxfilterItem = By.id("trendyol.com:id/filterName");
+    By checkBoxfilterItem;
 
     public FilterPage(WebDriver driver) {
         this.elementHelper = new ElementHelper(driver);
@@ -24,7 +24,8 @@ public class FilterPage {
     }
 
     public void clickCheckBoxFilterItem(String item) {
-        elementHelper.clickNearElementWithText(checkBoxfilterItem, item);
+        String locator = "//android.widget.TextView[@text=\"" + item + "\"]/../android.widget.CheckBox";
+        elementHelper.click(By.xpath(locator));
     }
 
     public String getListProduct() {
@@ -34,7 +35,6 @@ public class FilterPage {
     public void clickListProduct() {
         elementHelper.click(listProductButton);
     }
-
 
 
 }
