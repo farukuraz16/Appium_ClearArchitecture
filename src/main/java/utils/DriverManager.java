@@ -42,17 +42,12 @@ public class DriverManager {
                 driver = new FirefoxDriver();
                 break;
             case "android":
-                DesiredCapabilities capabilities = new DesiredCapabilities();
-                capabilities.setCapability("platformName", "Android");
-                capabilities.setCapability("appPackage", "trendyol.com");
-                capabilities.setCapability("appActivity", "com.trendyol.common.splash.impl.ui.SplashActivity");
-                capabilities.setCapability("noReset", false);
-                capabilities.setCapability("autoGrantPermissions", true);
-                try {
-                    driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                }
+
+
+                driver = new ChromeDriver();
+
+
+
                 break;
             default:
                 throw new RuntimeException("Invalid browser type provided!");
